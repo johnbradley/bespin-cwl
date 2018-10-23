@@ -6,10 +6,10 @@ jobs:
     steps:
       - checkout
 
-      - restore_cache: &pyrestorecache 
+      - restore_cache:
           key: v1-dependency-cache-{{ checksum "requirements.txt" }}
 
-      - run: &pyinstall
+      - run:
           name: install python dependencies
           command: |
             virtualenv env
@@ -17,7 +17,7 @@ jobs:
             pip install --upgrade pip
             pip install -r requirements.txt
 
-      - save_cache: &pysavecache
+      - save_cache:
           key: v1-dependency-cache-{{ checksum "requirements.txt" }}
           paths:
             - "env"
@@ -32,9 +32,21 @@ jobs:
       - image: circleci/python:2.7
     steps:
       - checkout
-      - *pyrestorecache
-      - *pyinstall
-      - *pysavecache
+      - restore_cache:
+          key: v1-dependency-cache-{{ checksum "requirements.txt" }}
+
+      - run:
+          name: install python dependencies
+          command: |
+            virtualenv env
+            source env/bin/activate
+            pip install --upgrade pip
+            pip install -r requirements.txt
+
+      - save_cache:
+          key: v1-dependency-cache-{{ checksum "requirements.txt" }}
+          paths:
+            - "env"
       - run:
           name: create packed workflows
           command: |
