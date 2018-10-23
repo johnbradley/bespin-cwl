@@ -6,10 +6,10 @@ jobs:
     steps:
       - checkout
 
-      - &pyrestorecache restore_cache:
+      - restore_cache: &pyrestorecache 
           key: v1-dependency-cache-{{ checksum "requirements.txt" }}
 
-      - &pyinstall run:
+      - run: &pyinstall
           name: install python dependencies
           command: |
             virtualenv env
@@ -17,7 +17,7 @@ jobs:
             pip install --upgrade pip
             pip install -r requirements.txt
 
-      - &pysavecache save_cache:
+      - save_cache: &pysavecache
           key: v1-dependency-cache-{{ checksum "requirements.txt" }}
           paths:
             - "env"
