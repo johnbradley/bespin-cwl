@@ -5,23 +5,22 @@ jobs:
       - image: circleci/python:2.7
     steps:
       - checkout
-
-      - restore_cache:
+      - &restore_python_cache
+        restore_cache:
           key: v1-dependency-cache-{{ checksum "requirements.txt" }}
-
-      - run:
+      - &install_dependencies
+        run:
           name: install python dependencies
           command: |
             virtualenv env
             source env/bin/activate
             pip install --upgrade pip
             pip install -r requirements.txt
-
-      - save_cache:
+      - &save_python_cache
+        save_cache:
           key: v1-dependency-cache-{{ checksum "requirements.txt" }}
           paths:
             - "env"
-
       - run:
           name: run tests
           command: |
@@ -32,21 +31,9 @@ jobs:
       - image: circleci/python:2.7
     steps:
       - checkout
-      - restore_cache:
-          key: v1-dependency-cache-{{ checksum "requirements.txt" }}
-
-      - run:
-          name: install python dependencies
-          command: |
-            virtualenv env
-            source env/bin/activate
-            pip install --upgrade pip
-            pip install -r requirements.txt
-
-      - save_cache:
-          key: v1-dependency-cache-{{ checksum "requirements.txt" }}
-          paths:
-            - "env"
+      - *restore_python_cache
+      - *install_dependencies
+      - *save_python_cache
       - run:
           name: create packed workflows
           command: |
