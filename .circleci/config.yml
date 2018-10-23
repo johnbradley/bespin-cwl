@@ -55,7 +55,7 @@ jobs:
       - persist_to_workspace:
           root: workspace
           paths:
-            - *
+            - "*"
   deploy:
     docker:
       - image: circleci/golang:1.8
