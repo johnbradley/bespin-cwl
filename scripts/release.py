@@ -2,6 +2,7 @@ import sys
 import os
 import subprocess
 from github import Github
+from github.GithubException import UnknownObjectException
 SEP = '-'
 BUILD_DIR="build"
 
@@ -22,7 +23,10 @@ if not os.path.exists(workflow_path):
 
 g = Github(token)
 repo = g.get_repo(repo_name)
-release = repo.get_release(tag)
+try:
+    release = repo.get_release(tag)
+except UnknownObjectException:
+    release = repo.create_git_release(tag=tag, name=tag, message='Releasing {} {}'.format(workflow_name, version_str))
 
 release_assets = release.get_assets()
 asset_names = [asset.name for asset in release_assets]
