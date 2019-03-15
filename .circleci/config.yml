@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/python:2.7
+      - image: circleci/python:3.6-node
     steps:
       - checkout
       - &restore_python_cache
@@ -28,7 +28,7 @@ jobs:
             ./scripts/validate-workflows.sh
   deploy:
     docker:
-      - image: circleci/python:3.7
+      - image: circleci/python:3.6-node
     steps:
       - checkout
       - *restore_python_cache
