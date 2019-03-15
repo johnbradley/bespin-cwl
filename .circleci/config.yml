@@ -30,6 +30,7 @@ jobs:
     docker:
       - image: circleci/python:3.7
     steps:
+      - checkout
       - *restore_python_cache
       - *install_dependencies
       - *save_python_cache
