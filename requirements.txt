@@ -6,6 +6,7 @@ cwltest==1.0.20170214185319
 cwltool==1.0.20170516234254
 dill==0.2.5
 futures==3.1.1
+PyGithub==1.43.5
 html5lib==0.999999999
 isodate==0.5.4
 junit-xml==1.7
